@@ -2,23 +2,28 @@ package MK.repository;
 import MK.exceptions.MyException;
 import MK.model.Customer;
 
+import java.io.File;
 import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Scanner;
 
+//import static com.sun.tools.javac.code.Lint.LintCategory.PATH;
+
 
 public class CustomerRepository  extends AbstractGenericRepository<Customer> implements CustomerInterface {
 
-    private static final String PATH = "C:/Users/Karol/IdeaProjects/testowanie_projekt2/src/main/java/resources/";
+//    private static final String PATH = "C:/Users/Karol/IdeaProjects/testowanie_projekt2/src/main/java/resources/";
 
 
     public static Customer downloadCustomerFromFile(String path) {
-        try (FileReader reader = new FileReader(PATH + path); Scanner sc = new Scanner(reader)) {
+        File resources = new File("src/main/java/resources");
+        try (FileReader reader = new FileReader(resources.getAbsolutePath()+'/'+path);
+            Scanner sc = new Scanner(reader)) {
             String data[] = sc.nextLine().split(";");
             System.out.println(Arrays.toString(data));
-            System.out.println(data[0]);
-            System.out.println(data[1]);
+            /*System.out.println(data[0]);
+            System.out.println(data[1]);*/
             return Customer.builder()
                     .name(data[0])
                     .surname(data[1])

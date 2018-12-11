@@ -5,6 +5,7 @@ import MK.model.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,13 @@ import java.util.Scanner;
 public class ProductRepository extends AbstractGenericRepository<Product> implements ProductInterface {
 
     public List<Product> importProductFromFile(String filename) {
-        File file = new File(filename);
+//        File file = new File(filename);
+        InputStream file = null;
+        file = getClass().getResourceAsStream(filename);
         Scanner sc = null;
         try {
             sc = new Scanner(file);
-        } catch (FileNotFoundException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         List<Product> products = new ArrayList<>();
@@ -34,7 +37,7 @@ public class ProductRepository extends AbstractGenericRepository<Product> implem
     }
 
     public void enterDataProductToDataBase() {
-        List<Product> products = importProductFromFile("C:/Users/Karol/IdeaProjects/testowanie_projekt2/src/main/java/resources/products.txt");
+        List<Product> products = importProductFromFile("/products.txt");
         for (int i = 0; i < products.size(); i++) {
             saveOrUpdate(products.get(i));
         }

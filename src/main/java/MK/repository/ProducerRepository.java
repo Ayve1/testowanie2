@@ -6,15 +6,18 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.InputStream;
 
 public class ProducerRepository extends AbstractGenericRepository<Producer> implements ProducerInterface {
 
     public List<Producer> importProducerFromFile(String filename) {
-        File file = new File(filename);
+//        File file = new File(filename);
+        InputStream file = null;
+        file = getClass().getResourceAsStream(filename);
         Scanner sc = null;
         try {
             sc = new Scanner(file);
-        } catch (FileNotFoundException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         List<Producer> producers = new ArrayList<>();
@@ -29,7 +32,8 @@ public class ProducerRepository extends AbstractGenericRepository<Producer> impl
     }
 
     public void enterDataProducerToDataBase() {
-        List<Producer> producers = importProducerFromFile("C:/Users/Karol/IdeaProjects/testowanie_projekt2/src/main/java/resources/producers.txt");
+
+        List<Producer> producers = importProducerFromFile("/producers.txt");
         System.out.println("list=" + producers);
         for (int i = 0; i < producers.size(); i++) {
             saveOrUpdate(producers.get(i));

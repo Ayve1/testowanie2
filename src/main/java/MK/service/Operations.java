@@ -6,7 +6,7 @@ import MK.model.CustomerOrder;
 import MK.model.Product;
 import MK.repository.CustomerRepository;
 import MK.repository.ProductRepository;
-import sun.security.krb5.SCDynamicStoreConfig;
+//import sun.security.krb5.SCDynamicStoreConfig;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,6 +29,15 @@ public class Operations {
         System.out.println("Give age");
         int age = scanner.nextInt();
         return Customer.builder().name(name).surname(surname).age(age).build();
+    }
+
+    public boolean addNewCustomer() {
+        Customer c = this.getCustomerInformation();
+        if(c != null){
+            this.customerRepository.saveOrUpdate(c);
+            return true;
+        }
+        return false;
     }
 
 
