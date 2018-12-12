@@ -3,12 +3,17 @@ package MK.service;
 import MK.model.Customer;
 import MK.repository.CustomerRepository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CustomerOperations {
 
     private CustomerRepository customerRepository = new CustomerRepository();
 
+    public List<Customer> getCustomerList(){
+        return this.customerRepository.findAll();
+    }
 
     public Customer getCustomerInformation() {
         Scanner scanner = new Scanner(System.in);
@@ -52,6 +57,11 @@ public class CustomerOperations {
 
     public Customer findCustomerByNameSurname(String name, String surname) {
         return this.customerRepository.findOneByName(name, surname);
+    }
+
+    public Customer findCustomer(Long id){
+        Optional c = this.customerRepository.findOne(id);
+        return (Customer) c.get();
     }
 
     public void menuUpdateCustomer(Scanner scanner){

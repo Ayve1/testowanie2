@@ -3,12 +3,17 @@ package MK.service;
 import MK.model.Producer;
 import MK.repository.ProducerRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class ProducerOperations {
 
     private ProducerRepository producerRepository = new ProducerRepository();
+
+    public List<Producer> getProducerList(){
+        return this.producerRepository.findAll();
+    }
 
     public void menuAddProducer(Scanner scanner1){
         Scanner scanner = new Scanner(System.in);

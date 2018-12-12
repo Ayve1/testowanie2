@@ -5,6 +5,8 @@ import MK.service.CustomerOperations;
 import MK.service.Operations;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
@@ -29,6 +31,13 @@ public class CustomerTest {
 
         Customer testCustomer = null;
         o.addCustomer(testCustomer);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void findWrongIdCustomerTest() {
+        CustomerOperations o = new CustomerOperations();
+
+        o.findCustomer(0L);
     }
 
     @Test

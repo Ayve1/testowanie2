@@ -33,6 +33,13 @@ public class ProductTest {
         o.addProduct(testProduct);
     }
 
+    @Test(expected = NoSuchElementException.class)
+    public void findWrongIdProductTest() {
+        ProductOperations o = new ProductOperations();
+
+        o.findProduct(0L);
+    }
+
     @Test
     public void updateProductTest() {
         ProductOperations o = new ProductOperations();

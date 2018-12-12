@@ -2,15 +2,13 @@ package MK;
 
 import MK.exceptions.MyException;
 import MK.model.Customer;
+import MK.model.CustomerOrder;
 import MK.model.Producer;
 import MK.model.Product;
 import MK.repository.CustomerRepository;
 import MK.repository.ProducerRepository;
 import MK.repository.ProductRepository;
-import MK.service.CustomerOperations;
-import MK.service.Operations;
-import MK.service.ProducerOperations;
-import MK.service.ProductOperations;
+import MK.service.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -37,10 +35,10 @@ public class App {
             productRepository.enterDataProductToDataBase();
             customerRepository.initialiseData();
 
-            Operations operations = new Operations();
             CustomerOperations customerOperations = new CustomerOperations();
             ProductOperations productOperations = new ProductOperations();
             ProducerOperations producerOperations = new ProducerOperations();
+            CustomerOrderOperations customerOrderOperations = new CustomerOrderOperations();
 
             int option = 1, option2;
             while(option > 0) {
@@ -53,7 +51,7 @@ public class App {
                         option2 = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                List<Customer> customerList = customerRepository.findAll();
+                                List<Customer> customerList = customerOperations.getCustomerList();
 
                                 for(Customer customer : customerList)
                                     System.out.println(customer);
@@ -79,7 +77,7 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                List<Product> productList = productRepository.findAll();
+                                List<Product> productList = productOperations.getProductList();
 
                                 for(Product product : productList)
                                     System.out.println(product);
@@ -105,7 +103,7 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                List<Producer> producerList = producerRepository.findAll();
+                                List<Producer> producerList = producerOperations.getProducerList();
 
                                 for(Producer producer : producerList)
                                     System.out.println(producer);
@@ -132,19 +130,23 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(operations.getCustomerOrderList());
+                                List<CustomerOrder> customerOrderList = customerOrderOperations.getCustomerOrderList();
+
+                                for(CustomerOrder customerOrder : customerOrderList)
+                                    System.out.println(customerOrder);
+
                                 break;
                             case 2:
-                                operations.menuAddCustomerOrder(scanner);
+                                customerOrderOperations.menuAddCustomerOrder(scanner);
                                 break;
                             case 3:
-                                operations.menuFindCustomerOrder(scanner);
+                                customerOrderOperations.menuFindCustomerOrder(scanner);
                                 break;
                             case 4:
-                                operations.menuUpdateCustomerOrder(scanner);
+                                customerOrderOperations.menuUpdateCustomerOrder(scanner);
                                 break;
                             case 5:
-                                operations.menuRemoveCustomerOrder(scanner);
+                                customerOrderOperations.menuRemoveCustomerOrder(scanner);
                                 break;
                             default:
                                 System.out.println("Błędna opcja");

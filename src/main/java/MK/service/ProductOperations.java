@@ -4,12 +4,17 @@ import MK.model.Product;
 import MK.repository.ProductRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class ProductOperations {
 
     private ProductRepository productRepository = new ProductRepository();
+
+    public List<Product> getProductList(){
+        return this.productRepository.findAll();
+    }
 
     public void menuAddProduct(Scanner scanner1){
         Scanner scanner = new Scanner(System.in);

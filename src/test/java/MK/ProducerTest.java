@@ -32,6 +32,13 @@ public class ProducerTest {
         o.addProducer(testProducer);
     }
 
+    @Test(expected = NoSuchElementException.class)
+    public void findWrongIdProducerTest() {
+        ProducerOperations o = new ProducerOperations();
+
+        o.findProducer(0L);
+    }
+
     @Test
     public void updateProducerTest(){
         ProducerOperations o = new ProducerOperations();
