@@ -26,17 +26,61 @@ public class CustomerOrder {
     private long productId;
     private long customerId;
 
-    @ManyToMany(mappedBy = "customerOrders")
+    @ManyToMany(mappedBy = "customerOrders", fetch = FetchType.EAGER)
     private Set<Product> products;
 
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "customer_orders",
             joinColumns = @JoinColumn(name = "customers_order_id"),
-            inverseJoinColumns = @JoinColumn(name = "cusomer_id")
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
 
     private Set<Customer> customers;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long id) {
+        this.customerId = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public int getNumberOfItems() {
+        return numberOfItems;
+    }
+
+    public void setNumberOfItems(int n) {
+        this.numberOfItems = n;
+    }
+
+    public BigDecimal getPayment() {
+        return payment;
+    }
+
+    public void setPayment(BigDecimal p) {
+        this.payment = p;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long id) {
+        this.productId = id;
+    }
 
 }

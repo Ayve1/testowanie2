@@ -169,4 +169,26 @@ public abstract class AbstractGenericRepository<T> implements GenericRepository<
         }
         return true;
     }
+
+    public T save(T item) {
+        Session session = null;
+        Transaction tx = null;
+        try {
+            if (item == null) {
+                throw new NullPointerException("ITEM IS NULL");
+            }
+            session = sessionFactory.openSession();
+            tx = session.getTransaction();
+            tx.begin();
+            session.save(item);
+            tx.commit();
+        } catch (Exception e) {
+            throw new MyException("SAVE EXCEPTION", LocalDateTime.now());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return item;
+    }
 }

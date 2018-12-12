@@ -4,14 +4,14 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/mk_shopdb</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/MK_shopDB</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <!--<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>-->
-        <property name="connection.username">root</property>
-        <property name="connection.password">root123</property>
+        <property name="connection.username">test</property>
+        <property name="connection.password">zaq1@WSX</property>
         <property name="hbm2ddl.auto">create</property>
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
 
 
         <mapping class="MK.model.Product"/>

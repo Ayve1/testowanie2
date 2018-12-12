@@ -20,6 +20,7 @@ public class App {
                     "1. Menu klientów\n" +
                     "2. Menu produktów\n" +
                     "3. Menu producentów\n" +
+                    "4. Menu zamówień\n" +
                     "<=0. Wyjście z programu";
             CustomerRepository customerRepository = new CustomerRepository();
             ProductRepository productRepository = new ProductRepository();
@@ -41,7 +42,7 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(customerRepository.findAll());
+                                System.out.println(operations.getCustomerList());
                                 break;
                             case 2:
                                 operations.menuAddCustomer();
@@ -64,7 +65,7 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(productRepository.findAll());
+                                System.out.println(operations.getProductList());
                                 break;
                             case 2:
                                 operations.menuAddProduct(scanner);
@@ -87,7 +88,7 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(producerRepository.findAll());
+                                System.out.println(operations.getProducerList());
                                 break;
                             case 2:
                                 operations.menuAddProducer(scanner);
@@ -105,13 +106,33 @@ public class App {
                                 System.out.println("Błędna opcja");
                         }
                         break;
+                    case 4:
+                        System.out.println("[Zamówienia]Wybierz opcje:\n1.Pokaż listę\n2.Dodaj\n3.Wyszukaj\n4.Zaktualizuj\n5.Usuń");
+                        option2  = scanner.nextInt();
+                        switch(option2) {
+                            case 1:
+                                System.out.println(operations.getCustomerOrderList());
+                                break;
+                            case 2:
+                                operations.menuAddCustomerOrder(scanner);
+                                break;
+                            case 3:
+                                operations.menuFindCustomerOrder(scanner);
+                                break;
+                            case 4:
+                                operations.menuUpdateCustomerOrder(scanner);
+                                break;
+                            case 5:
+                                operations.menuRemoveCustomerOrder(scanner);
+                                break;
+                            default:
+                                System.out.println("Błędna opcja");
+                        }
+                        break;
                     default:
-                        System.out.println("Wybrano niepoprawną opcję");
-
+                        if(option > 0)
+                            System.out.println("Wybrano niepoprawną opcję");
                 }
-                /*operations.znajdzNajstarszegoKlienta();
-                System.out.println("Average age=" + operations.calculateAverageAgeCustomers());
-                operations.buyProduct();*/
             }
             System.out.println("Zakończenie działania programu");
         } catch (MyException e) {

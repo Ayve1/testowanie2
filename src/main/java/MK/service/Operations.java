@@ -5,6 +5,7 @@ import MK.model.Customer;
 import MK.model.CustomerOrder;
 import MK.model.Producer;
 import MK.model.Product;
+import MK.repository.CustomerOrderRepository;
 import MK.repository.CustomerRepository;
 import MK.repository.ProducerRepository;
 import MK.repository.ProductRepository;
@@ -20,7 +21,7 @@ public class Operations {
     private CustomerRepository customerRepository = new CustomerRepository();
     private ProductRepository productRepository = new ProductRepository();
     private ProducerRepository producerRepository = new ProducerRepository();
-    private CustomerOrder customerOrder = new CustomerOrder();
+    private CustomerOrderRepository customerOrderRepository = new CustomerOrderRepository();
 
     public Customer getCustomerInformation() {
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +31,11 @@ public class Operations {
         String surname = scanner.nextLine();
         System.out.println("Give age");
         int age = scanner.nextInt();
-        return Customer.builder().name(name).surname(surname).age(age).build();
+        return Customer.builder()
+                .name(name)
+                .surname(surname)
+                .age(age)
+                .build();
     }
 
     public void znajdzNajstarszegoKlienta() {
@@ -109,6 +114,10 @@ public class Operations {
 
     // Klienci
 
+    public List<Customer> getCustomerList(){
+        return this.customerRepository.findAll();
+    }
+
     public void menuAddCustomer(){
         Customer c = this.getCustomerInformation();
         if (addCustomer(c)) {
@@ -136,6 +145,11 @@ public class Operations {
         else
             System.out.println(c);
         return c;
+    }
+
+    public Customer findCustomer(Long id){
+        Optional c = this.customerRepository.findOne(id);
+        return (Customer) c.get();
     }
 
     public Customer findCustomerByNameSurname(String name, String surname) {
@@ -173,6 +187,10 @@ public class Operations {
 
     // Produkty
 
+    public List<Product> getProductList(){
+        return this.productRepository.findAll();
+    }
+
     public void menuAddProduct(Scanner scanner1){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj nazwę");
@@ -181,7 +199,11 @@ public class Operations {
         BigDecimal price = new BigDecimal(scanner.nextDouble());
         System.out.println("Podaj id producenta");
         int id = scanner.nextInt();
-        Product p = Product.builder().name(name).price(price).producerId(id).build();
+        Product p = Product.builder()
+                .name(name)
+                .price(price)
+                .producerId(id)
+                .build();
         System.out.println(addProduct(p));
         System.out.println("Dodano produkt");
     }
@@ -243,11 +265,17 @@ public class Operations {
     }
     // Producent
 
+    public List<Producer> getProducerList(){
+        return this.producerRepository.findAll();
+    }
+
     public void menuAddProducer(Scanner scanner1){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj nazwę");
         String name = scanner.nextLine();
-        Producer p = Producer.builder().name(name).build();
+        Producer p = Producer.builder()
+                .name(name)
+                .build();
         System.out.println(addProducer(p));
         System.out.println("Dodano producenta");
     }
@@ -301,4 +329,84 @@ public class Operations {
         this.producerRepository.delete(id);
     }
 
+    // Customer Order
+
+    public List<CustomerOrder> getCustomerOrderList(){
+        return this.customerOrderRepository.findAll();
+    }
+
+    public void menuAddCustomerOrder(Scanner scanner){
+        System.out.println("Podaj id użytkownika kupującego");
+        Long id = (long) scanner.nextInt();
+        if(findCustomer(id) == null)
+            throw new NullPointerException("Brak klienta o takim id");
+        System.out.println("Podaj id produktu");
+        Long productId = (long) scanner.nextInt();
+        Product p = findProduct(productId);
+        if(p == null)
+            throw new NullPointerException("Brak produktu o takim id");
+        System.out.println("Podaj ilość kupowanych przedmiotów");
+        int amount = scanner.nextInt();
+        CustomerOrder co = CustomerOrder.builder()
+                .customerId(id)
+                .date(LocalDate.now())
+                .numberOfItems(amount).
+                payment(new BigDecimal(p.getPrice().doubleValue()*amount))
+                .productId(productId)
+                .build();
+        addCustomerOrder(co);
+    }
+
+    public CustomerOrder addCustomerOrder(CustomerOrder co){
+        return this.customerOrderRepository.save(co);
+    }
+
+    public void menuFindCustomerOrder(Scanner scanner){
+        System.out.println("Podaj id zamówienia");
+        Long id = (long) scanner.nextInt();
+        CustomerOrder co = findCustomerOrder(id);
+        if(co == null){
+            System.out.println("Nie znaleziono takiego zamówienia");
+        } else {
+            System.out.println(co);
+        }
+    }
+
+    public CustomerOrder findCustomerOrder(Long id){
+        Optional co = this.customerOrderRepository.findOne(id);
+        return (CustomerOrder) co.get();
+    }
+
+    public void menuUpdateCustomerOrder(Scanner scanner){
+        System.out.println("Podaj id zamówienia");
+        Long id = (long) scanner.nextInt();
+        CustomerOrder co = findCustomerOrder(id);
+        System.out.println(co);
+        System.out.println("Podaj nowe id produktu");
+        Long productId = (long) scanner.nextInt();
+        Product p = findProduct(productId);
+        if(p == null)
+            throw new NullPointerException("Brak produktu o takim id");
+        System.out.println("Podaj nową ilość kupowanych przedmiotów");
+        int amount = scanner.nextInt();
+        co.setNumberOfItems(amount);
+        co.setProductId(productId);
+        co.setPayment(new BigDecimal(p.getPrice().doubleValue()*amount));
+        updateCustomerOrder(co);
+    }
+
+    public void updateCustomerOrder(CustomerOrder co){
+        this.customerOrderRepository.update(co);
+    }
+
+    public void menuRemoveCustomerOrder(Scanner scanner){
+        System.out.println("Podaj id zamówienia które chcesz usunąć");
+        Long id = (long) scanner.nextInt();
+        removeCustomerOrder(id);
+        System.out.println("Usunięto");
+    }
+
+    public void removeCustomerOrder(Long id){
+        this.customerOrderRepository.delete(id);
+    }
 }
