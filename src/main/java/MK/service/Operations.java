@@ -31,11 +31,7 @@ public class Operations {
         String surname = scanner.nextLine();
         System.out.println("Give age");
         int age = scanner.nextInt();
-        return Customer.builder()
-                .name(name)
-                .surname(surname)
-                .age(age)
-                .build();
+        return Customer.builder().name(name).surname(surname).age(age).build();
     }
 
     public void znajdzNajstarszegoKlienta() {
