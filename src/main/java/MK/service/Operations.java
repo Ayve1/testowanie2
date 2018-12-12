@@ -8,7 +8,6 @@ import MK.model.Product;
 import MK.repository.CustomerRepository;
 import MK.repository.ProducerRepository;
 import MK.repository.ProductRepository;
-//import sun.security.krb5.SCDynamicStoreConfig;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,7 +22,7 @@ public class Operations {
     private ProducerRepository producerRepository = new ProducerRepository();
     private CustomerOrder customerOrder = new CustomerOrder();
 
-    private Customer getCustomerInformation() {
+    public Customer getCustomerInformation() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Give name");
         String name = scanner.nextLine();
@@ -51,7 +50,6 @@ public class Operations {
     }
 
     public void buyProduct() {
-
         Scanner scanner = new Scanner(System.in);
         //pobierz Dane od klienta
         Customer c = getCustomerInformation();
@@ -77,7 +75,7 @@ public class Operations {
             throw new MyException("Data base have not products", LocalDateTime.now());
         }
 
-        createNumericListPoduct(products);
+        createNumericListProduct(products);
 
         Scanner sc = new Scanner(System.in);
         int productId;
@@ -87,7 +85,7 @@ public class Operations {
         return products.get(productId - 1);
     }
 
-    public void createNumericListPoduct(List<Product> products) {
+    private void createNumericListProduct(List<Product> products) {
         for (int i = 0; i < products.size(); i++) {
             System.out.println(i + "." + products.get(i));
         }
@@ -112,20 +110,19 @@ public class Operations {
     // Klienci
 
     public void menuAddCustomer(){
-        if (addCustomer()) {
+        Customer c = this.getCustomerInformation();
+        if (addCustomer(c)) {
             System.out.println("Klient utworzony");
         } else {
             System.out.println("Błąd");
         }
     }
 
-    private boolean addCustomer() {
-        Customer c = this.getCustomerInformation();
+    public boolean addCustomer(Customer c) {
         if(c != null){
             this.customerRepository.saveOrUpdate(c);
             return true;
-        }
-        return false;
+        } else throw new NullPointerException();
     }
 
     public Customer menuFindCustomerByNameSurname(Scanner scanner){
@@ -141,7 +138,7 @@ public class Operations {
         return c;
     }
 
-    private Customer findCustomerByNameSurname(String name, String surname) {
+    public Customer findCustomerByNameSurname(String name, String surname) {
         return this.customerRepository.findOneByName(name, surname);
     }
 
@@ -160,7 +157,7 @@ public class Operations {
         }
     }
 
-    private boolean updateCustomer(Customer c){
+    public boolean updateCustomer(Customer c){
         return this.customerRepository.update(c);
     }
 
@@ -170,13 +167,14 @@ public class Operations {
         this.removeCustomer(id);
     }
 
-    private void removeCustomer(Long id) {
+    public void removeCustomer(Long id) {
         this.customerRepository.delete(id);
     }
 
     // Produkty
 
-    public void menuAddProduct(Scanner scanner){
+    public void menuAddProduct(Scanner scanner1){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj nazwę");
         String name = scanner.nextLine();
         System.out.println("Podaj cenę");
@@ -188,8 +186,11 @@ public class Operations {
         System.out.println("Dodano produkt");
     }
 
-    private Product addProduct(Product p){
-        return this.productRepository.saveOrUpdate(p);
+    public Product addProduct(Product p){
+        if(p == null)
+            throw new NullPointerException();
+        else
+            return this.productRepository.saveOrUpdate(p);
     }
 
     public void menuFindProduct(Scanner scanner){
@@ -199,7 +200,7 @@ public class Operations {
         System.out.println(p);
     }
 
-    private Product findProduct(Long id) {
+    public Product findProduct(Long id) {
         Optional p = this.productRepository.findOne(id);
         return (Product) p.get();
     }
@@ -210,12 +211,13 @@ public class Operations {
         Product p = findProduct(id);
         if(p != null) {
             System.out.println(p);
+            Scanner newScanner = new Scanner(System.in);
             System.out.println("Podaj nową nazwę");
-            String name = scanner.nextLine();
+            String name = newScanner.nextLine();
             System.out.println("Podaj nową cenę");
-            BigDecimal price = new BigDecimal(scanner.nextDouble());
+            BigDecimal price = new BigDecimal(newScanner.nextDouble());
             System.out.println("Podaj inne id producenta");
-            int producerId = scanner.nextInt();
+            int producerId = newScanner.nextInt();
             p.setName(name);
             p.setPrice(price);
             p.setProducerId(producerId);
@@ -226,7 +228,7 @@ public class Operations {
         }
     }
 
-    private void updateProduct(Product p){
+    public void updateProduct(Product p){
         this.productRepository.update(p);
     }
 
@@ -236,12 +238,13 @@ public class Operations {
         removeProduct(id);
     }
 
-    private void removeProduct(Long id){
+    public void removeProduct(Long id){
         this.productRepository.delete(id);
     }
     // Producent
 
-    public void menuAddProducer(Scanner scanner){
+    public void menuAddProducer(Scanner scanner1){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj nazwę");
         String name = scanner.nextLine();
         Producer p = Producer.builder().name(name).build();
@@ -249,7 +252,9 @@ public class Operations {
         System.out.println("Dodano producenta");
     }
 
-    private Producer addProducer(Producer p){
+    public Producer addProducer(Producer p){
+        if(p == null)
+            throw new NullPointerException();
         return this.producerRepository.saveOrUpdate(p);
     }
 
@@ -260,7 +265,7 @@ public class Operations {
         System.out.println(p);
     }
 
-    private Producer findProducer(Long id) {
+    public Producer findProducer(Long id) {
         Optional p = this.producerRepository.findOne(id);
         return (Producer) p.get();
     }
@@ -271,8 +276,9 @@ public class Operations {
         Producer p = findProducer(id);
         if(p != null) {
             System.out.println(p);
+            Scanner newScanner = new Scanner(System.in);
             System.out.println("Podaj nową nazwę");
-            String name = scanner.nextLine();
+            String name = newScanner.nextLine();
             p.setName(name);
             updateProducer(p);
             System.out.println("Zaktualizowano");
@@ -281,7 +287,7 @@ public class Operations {
         }
     }
 
-    private void updateProducer(Producer p){
+    public void updateProducer(Producer p){
         this.producerRepository.update(p);
     }
 
@@ -291,7 +297,7 @@ public class Operations {
         removeProducer(id);
     }
 
-    private void removeProducer(Long id){
+    public void removeProducer(Long id){
         this.producerRepository.delete(id);
     }
 

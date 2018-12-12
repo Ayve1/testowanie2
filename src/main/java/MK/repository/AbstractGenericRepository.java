@@ -47,7 +47,7 @@ public abstract class AbstractGenericRepository<T> implements GenericRepository<
                 session.close();
             }
         }
-        return item;
+        return t;
     }
 
     @Override

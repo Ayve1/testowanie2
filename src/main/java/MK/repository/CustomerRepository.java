@@ -51,10 +51,12 @@ public class CustomerRepository  extends AbstractGenericRepository<Customer> imp
         Customer item = null;
         Session session = null;
         Transaction tx;
+
         try {
             if (name == null || surname == null) {
                 throw new NullPointerException("ID IS NULL");
             }
+
             session = sessionFactory.openSession();
             tx = session.getTransaction();
             tx.begin();
@@ -64,7 +66,6 @@ public class CustomerRepository  extends AbstractGenericRepository<Customer> imp
             tx.commit();
             if(data.size() > 0)
                 item = (Customer) data.get(0);
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException("FIND ONE EXCEPTION", LocalDateTime.now());
@@ -73,6 +74,7 @@ public class CustomerRepository  extends AbstractGenericRepository<Customer> imp
                 session.close();
             }
         }
+
         return item;
     }
 

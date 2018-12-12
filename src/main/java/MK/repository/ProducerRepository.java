@@ -1,13 +1,6 @@
 package MK.repository;
 
-import MK.exceptions.MyException;
 import MK.model.Producer;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,9 +8,8 @@ import java.io.InputStream;
 
 public class ProducerRepository extends AbstractGenericRepository<Producer> implements ProducerInterface {
 
-    public List<Producer> importProducerFromFile(String filename) {
-//        File file = new File(filename);
-        InputStream file = null;
+    private List<Producer> importProducerFromFile(String filename) {
+        InputStream file;
         file = getClass().getResourceAsStream(filename);
         Scanner sc = null;
         try {
@@ -37,7 +29,6 @@ public class ProducerRepository extends AbstractGenericRepository<Producer> impl
     }
 
     public void enterDataProducerToDataBase() {
-
         List<Producer> producers = importProducerFromFile("/producers.txt");
         System.out.println("list=" + producers);
         for (int i = 0; i < producers.size(); i++) {
