@@ -1,8 +1,13 @@
 package MK.repository;
 
+import MK.exceptions.MyException;
 import MK.model.Producer;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

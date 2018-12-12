@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public abstract class AbstractGenericRepository<T> implements GenericRepository<T> {
 
-    private final SessionFactory sessionFactory = DbConnection.getInstance().getSessionFactory();
+    protected final SessionFactory sessionFactory = DbConnection.getInstance().getSessionFactory();
     private final Class<T> type
             = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
@@ -146,28 +146,27 @@ public abstract class AbstractGenericRepository<T> implements GenericRepository<
         return items;
     }
 
-
-
-    public Optional<T> findByNameSurame(String name) {
-        Optional<T> item = Optional.empty();
+    public boolean update(T t) {
+        T item = null;
         Session session = null;
-        Transaction tx = null;
+        Transaction tx;
         try {
-            if (name == null) {
-                throw new NullPointerException("NAME IS NULL");
+            if (t == null) {
+                throw new NullPointerException("ID IS NULL");
             }
             session = sessionFactory.openSession();
             tx = session.getTransaction();
             tx.begin();
-            item = Optional.of(session.get(type, name));
+            session.update(t);
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new MyException("FIND ONE EXCEPTION", LocalDateTime.now());
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return item;
+        return true;
     }
 }

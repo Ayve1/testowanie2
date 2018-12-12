@@ -1,14 +1,11 @@
 package MK;
 
 import MK.exceptions.MyException;
-import MK.model.Customer;
-import MK.model.Product;
 import MK.repository.CustomerRepository;
 import MK.repository.ProducerRepository;
 import MK.repository.ProductRepository;
 import MK.service.Operations;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 /**
@@ -17,16 +14,13 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         try {
             String menu = "MENU \n" +
-                    "0. Pokaż menu\n" +
-                    "1. Pokaż listę klientów\n" +
-                    "2. Pokaż listę produktów\n" +
-                    "3. Pokaż listę producentów\n" +
-                    "4. Dodaj klienta\n" +
-                    "5. Znajdz najstarszego klienta\n" +
-                    "6. Średni wiek klientów\n" +
-                    "-X. Wyjście z programu";
+                    "1. Menu klientów\n" +
+                    "2. Menu produktów\n" +
+                    "3. Menu producentów\n" +
+                    "<=0. Wyjście z programu";
             CustomerRepository customerRepository = new CustomerRepository();
             ProductRepository productRepository = new ProductRepository();
             ProducerRepository producerRepository = new ProducerRepository();
@@ -35,43 +29,83 @@ public class App {
             productRepository.enterDataProductToDataBase();
             customerRepository.initialiseData();
             Operations operations = new Operations();
-            Scanner scanner = new Scanner(System.in);
-            System.out.println(menu);
-            int option =1;
-            while(option >= 0) {
+
+            int option =1, option2 = 1;
+            while(option > 0) {
+                System.out.println(menu);
                 System.out.println("Wybierz interesującą Cię opcje:");
                 option  = scanner.nextInt();
                 switch(option) {
-                    case 0:
-                        System.out.println(menu);
-                        break;
                     case 1:
-                        System.out.println(customerRepository.findAll());
-                        break;
-                    case 2:
-                        System.out.println(productRepository.findAll());
-                        break;
-                    case 3:
-                        System.out.println(producerRepository.findAll());
-                        break;
-                    case 4:
-                        if (operations.addNewCustomer()) {
-                            System.out.println("Klient utworzony");
-                        } else {
-                            System.out.println("Błąd");
+                        System.out.println("[KLIENT]Wybierz opcje:\n1.Pokaż listę\n2.Dodaj\n3.Wyszukaj\n4.Zaktualizuj\n5.Usuń");
+                        option2  = scanner.nextInt();
+                        switch(option2) {
+                            case 1:
+                                System.out.println(customerRepository.findAll());
+                                break;
+                            case 2:
+                                operations.menuAddCustomer();
+                                break;
+                            case 3:
+                                operations.menuFindCustomerByNameSurname(scanner);
+                                break;
+                            case 4:
+                                operations.menuUpdateCustomer(scanner);
+                                break;
+                            case 5:
+                                operations.menuRemoveCustomer(scanner);
+                                break;
+                            default:
+                                System.out.println("Błędna opcja");
                         }
                         break;
-                    case 5:
-                        operations.znajdzNajstarszegoKlienta();
+                    case 2:
+                        System.out.println("[PRODUKTY]Wybierz opcje:\n1.Pokaż listę\n2.Dodaj\n3.Wyszukaj\n4.Zaktualizuj\n5.Usuń");
+                        option2  = scanner.nextInt();
+                        switch(option2) {
+                            case 1:
+                                System.out.println(productRepository.findAll());
+                                break;
+                            case 2:
+                                operations.menuAddProduct(scanner);
+                                break;
+                            case 3:
+                                operations.menuFindProduct(scanner);
+                                break;
+                            case 4:
+                                operations.menuUpdateProduct(scanner);
+                                break;
+                            case 5:
+                                operations.menuRemoveProduct(scanner);
+                                break;
+                            default:
+                                System.out.println("Błędna opcja");
+                        }
                         break;
-                    case 6:
-                        System.out.println("Średni wiek: "+operations.calculateAverageAgeCustomers());
-                        break;
-                    case 7:
-                        System.out.println("Kup produkt");
+                    case 3:
+                        System.out.println("[PRODUCENCI]Wybierz opcje:\n1.Pokaż listę\n2.Dodaj\n3.Wyszukaj\n4.Zaktualizuj\n5.Usuń");
+                        option2  = scanner.nextInt();
+                        switch(option2) {
+                            case 1:
+                                System.out.println(producerRepository.findAll());
+                                break;
+                            case 2:
+                                operations.menuAddProducer(scanner);
+                                break;
+                            case 3:
+                                operations.menuFindProducer(scanner);
+                                break;
+                            case 4:
+                                operations.menuUpdateProducer(scanner);
+                                break;
+                            case 5:
+                                operations.menuRemoveProducer(scanner);
+                                break;
+                            default:
+                                System.out.println("Błędna opcja");
+                        }
                         break;
                     default:
-                        if(option >= 0)
                         System.out.println("Wybrano niepoprawną opcję");
 
                 }
@@ -83,5 +117,6 @@ public class App {
         } catch (MyException e) {
             e.printStackTrace();
         }
+        scanner.close();
     }
 }

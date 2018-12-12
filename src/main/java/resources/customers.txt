@@ -1,0 +1,4 @@
+maja;KOWALSKA;12
+MAREK;KOWALIK;33
+Adam;Malysz;42
+Andrzej;Duda;99
