@@ -74,5 +74,17 @@ public class Product {
     public void setProducer(Producer producer) {
         this.producer = producer;
     }
-}
 
+    @Override
+    public String toString() {
+        if(this.producer != null)
+            return "Product number: " + this.id + "\n"
+                + "Product name: " + this.name + "\n"
+                + "Product price: " + this.price + "\n"
+                + "Product's producer data: " + this.producer.toString();
+        else return "Product number: " + this.id + "\n"
+                + "Product name: " + this.name + "\n"
+                + "Product price: " + this.price + "\n"
+                + "No Producer data";
+    }
+}

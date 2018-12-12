@@ -34,4 +34,11 @@ public class Producer {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Producer number: " + this.id + "\n"
+                + "Producer name: " + this.name + "\n"
+                + "Producer's products: " + this.products;
+    }
 }

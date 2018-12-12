@@ -1,7 +1,4 @@
-WARSZAWA
-SZCZECIN
-LONDYN
-MADRYT
-BERLIN
-WROCLAW
-LUBLIN
+Polinex
+Meblosław
+Tarczyn
+Tymbark

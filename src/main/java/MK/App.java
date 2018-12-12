@@ -1,11 +1,18 @@
 package MK;
 
 import MK.exceptions.MyException;
+import MK.model.Customer;
+import MK.model.Producer;
+import MK.model.Product;
 import MK.repository.CustomerRepository;
 import MK.repository.ProducerRepository;
 import MK.repository.ProductRepository;
+import MK.service.CustomerOperations;
 import MK.service.Operations;
+import MK.service.ProducerOperations;
+import MK.service.ProductOperations;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,9 +35,13 @@ public class App {
             producerRepository.enterDataProducerToDataBase();
             productRepository.enterDataProductToDataBase();
             customerRepository.initialiseData();
-            Operations operations = new Operations();
 
-            int option =1, option2 = 1;
+            Operations operations = new Operations();
+            CustomerOperations customerOperations = new CustomerOperations();
+            ProductOperations productOperations = new ProductOperations();
+            ProducerOperations producerOperations = new ProducerOperations();
+
+            int option = 1, option2;
             while(option > 0) {
                 System.out.println(menu);
                 System.out.println("Wybierz interesującą Cię opcje:");
@@ -38,22 +49,25 @@ public class App {
                 switch(option) {
                     case 1:
                         System.out.println("[KLIENT]Wybierz opcje:\n1.Pokaż listę\n2.Dodaj\n3.Wyszukaj\n4.Zaktualizuj\n5.Usuń");
-                        option2  = scanner.nextInt();
+                        option2 = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(customerRepository.findAll());
+                                List<Customer> customerList = customerRepository.findAll();
+
+                                for(Customer customer : customerList)
+                                    System.out.println(customer);
                                 break;
                             case 2:
-                                operations.menuAddCustomer();
+                                customerOperations.menuAddCustomer();
                                 break;
                             case 3:
-                                operations.menuFindCustomerByNameSurname(scanner);
+                                customerOperations.menuFindCustomerByNameSurname(scanner);
                                 break;
                             case 4:
-                                operations.menuUpdateCustomer(scanner);
+                                customerOperations.menuUpdateCustomer(scanner);
                                 break;
                             case 5:
-                                operations.menuRemoveCustomer(scanner);
+                                customerOperations.menuRemoveCustomer(scanner);
                                 break;
                             default:
                                 System.out.println("Błędna opcja");
@@ -64,19 +78,22 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(productRepository.findAll());
+                                List<Product> productList = productRepository.findAll();
+
+                                for(Product product : productList)
+                                    System.out.println(product);
                                 break;
                             case 2:
-                                operations.menuAddProduct(scanner);
+                                productOperations.menuAddProduct(scanner);
                                 break;
                             case 3:
-                                operations.menuFindProduct(scanner);
+                                productOperations.menuFindProduct(scanner);
                                 break;
                             case 4:
-                                operations.menuUpdateProduct(scanner);
+                                productOperations.menuUpdateProduct(scanner);
                                 break;
                             case 5:
-                                operations.menuRemoveProduct(scanner);
+                                productOperations.menuRemoveProduct(scanner);
                                 break;
                             default:
                                 System.out.println("Błędna opcja");
@@ -87,19 +104,23 @@ public class App {
                         option2  = scanner.nextInt();
                         switch(option2) {
                             case 1:
-                                System.out.println(producerRepository.findAll());
+                                List<Producer> producerList = producerRepository.findAll();
+
+                                for(Producer producer : producerList)
+                                    System.out.println(producer);
+
                                 break;
                             case 2:
-                                operations.menuAddProducer(scanner);
+                                producerOperations.menuAddProducer(scanner);
                                 break;
                             case 3:
-                                operations.menuFindProducer(scanner);
+                                producerOperations.menuFindProducer(scanner);
                                 break;
                             case 4:
-                                operations.menuUpdateProducer(scanner);
+                                producerOperations.menuUpdateProducer(scanner);
                                 break;
                             case 5:
-                                operations.menuRemoveProducer(scanner);
+                                producerOperations.menuRemoveProducer(scanner);
                                 break;
                             default:
                                 System.out.println("Błędna opcja");

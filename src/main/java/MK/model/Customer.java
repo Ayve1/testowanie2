@@ -52,4 +52,12 @@ public class Customer {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return "Client number " + this.id + "\n"
+                + "Name: " + this.name + "\n"
+                + "Surname: " + this.surname + "\n"
+                + "Age: " + this.age + "\n";
+    }
 }
