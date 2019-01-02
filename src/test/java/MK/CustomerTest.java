@@ -2,7 +2,6 @@ package MK;
 
 import MK.model.Customer;
 import MK.service.CustomerOperations;
-import MK.service.Operations;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;

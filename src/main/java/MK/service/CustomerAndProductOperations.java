@@ -13,23 +13,23 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Operations {
+public class CustomerAndProductOperations {
 
     private CustomerRepository customerRepository = new CustomerRepository();
     private ProductRepository productRepository = new ProductRepository();
 
     public Customer getCustomerInformation() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Give name");
+        System.out.println("Input name");
         String name = scanner.nextLine();
-        System.out.println("Give surname");
+        System.out.println("Input surname");
         String surname = scanner.nextLine();
-        System.out.println("Give age");
+        System.out.println("Input age");
         int age = scanner.nextInt();
         return Customer.builder().name(name).surname(surname).age(age).build();
     }
 
-    public void znajdzNajstarszegoKlienta() {
+    public void findOldestClient() {
         List<Customer> customers = customerRepository.findAll();
         customers.stream()
                 .sorted(Comparator.comparing(s -> s.getAge()))
@@ -37,7 +37,7 @@ public class Operations {
                 .forEach(s -> System.out.println(s));
     }
 
-    public double calculateAverageAgeCustomers() {
+    public double calculateAverageCustomerAge() {
         List<Customer> customers = customerRepository.findAll();
         DoubleSummaryStatistics doubleSummaryStatistics = customers.stream()
                 .collect(Collectors.summarizingDouble(s -> s.getAge()));
@@ -49,7 +49,7 @@ public class Operations {
         Scanner scanner = new Scanner(System.in);
         //pobierz Dane od klienta
         Customer c = getCustomerInformation();
-        if (!czyZapisaćDoBazy(c)) {
+        if (!validate(c)) {
             customerRepository.saveOrUpdate(c);
         }
 
@@ -62,7 +62,6 @@ public class Operations {
                 .productId(p.getId())
                 .customerId(c.getId())
                 .build();
-
     }
 
     private Product chooseProduct() {
@@ -87,19 +86,19 @@ public class Operations {
         }
     }
 
-    private boolean czyZapisaćDoBazy(Customer c) {
+    private boolean validate(Customer c) {
         List<Customer> customers = customerRepository.findAll();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getName().equals(c.getName())
                     && customers.get(i).getSurname().equals(c.getSurname())
-                    && customers.get(i).getAge() == c.getAge()
-            ) {
+                    && customers.get(i).getAge() == c.getAge()) {
                 break;
             }
             if (i == customers.size()) {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -1,7 +1,6 @@
 package MK;
 
 import MK.model.Producer;
-import MK.service.Operations;
 import MK.service.ProducerOperations;
 import org.junit.Test;
 

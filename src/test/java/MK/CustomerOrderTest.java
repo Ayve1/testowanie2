@@ -7,6 +7,7 @@ import MK.exceptions.MyException;
 import MK.model.CustomerOrder;
 import MK.service.CustomerOrderOperations;
 
+import net.bytebuddy.asm.Advice;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -17,16 +18,18 @@ public class CustomerOrderTest
 {
 
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
-
-    @Test
     public void addGetCustomerOrderTest() {
         CustomerOrderOperations o = new CustomerOrderOperations();
 
-        CustomerOrder testCustomerOrder = CustomerOrder.builder().customerId(1).date(LocalDate.now()).numberOfItems(3).payment(new BigDecimal(5)).productId(1).build();
+        CustomerOrder testCustomerOrder = CustomerOrder.
+                                            builder().
+                                            customerId(1).
+                                            date(LocalDate.now()).
+                                            numberOfItems(3).
+                                            payment(new BigDecimal(5)).
+                                            productId(1).
+                                            build();
+
         CustomerOrder dbCustomerOrder = o.addCustomerOrder(testCustomerOrder);
 
         Long id = dbCustomerOrder.getId();
@@ -34,7 +37,8 @@ public class CustomerOrderTest
 
         assertEquals(customerOrderFromDB.getCustomerId(), testCustomerOrder.getCustomerId());
         assertEquals(customerOrderFromDB.getDate(), testCustomerOrder.getDate());
-        assertEquals(customerOrderFromDB.getPayment().stripTrailingZeros(), testCustomerOrder.getPayment().stripTrailingZeros());
+        assertEquals(customerOrderFromDB.getPayment().stripTrailingZeros(),
+                        testCustomerOrder.getPayment().stripTrailingZeros());
         assertEquals(customerOrderFromDB.getNumberOfItems(), testCustomerOrder.getNumberOfItems());
         assertEquals(customerOrderFromDB.getProductId(), testCustomerOrder.getProductId());
     }
@@ -59,7 +63,14 @@ public class CustomerOrderTest
     public void updateCustomerOrderTest(){
         CustomerOrderOperations o = new CustomerOrderOperations();
 
-        CustomerOrder testCustomerOrder = CustomerOrder.builder().customerId(1).date(LocalDate.now()).numberOfItems(1).payment(new BigDecimal(4)).productId(2).build();
+        CustomerOrder testCustomerOrder = CustomerOrder.
+                                            builder().
+                                            customerId(1).
+                                            date(LocalDate.now()).
+                                            numberOfItems(1).
+                                            payment(new BigDecimal(4)).
+                                            productId(2).
+                                            build();
 
         o.addCustomerOrder(testCustomerOrder);
 
@@ -82,7 +93,14 @@ public class CustomerOrderTest
     public void removeCustomerOrderTest(){
         CustomerOrderOperations o = new CustomerOrderOperations();
 
-        CustomerOrder testCustomerOrder = CustomerOrder.builder().customerId(1).date(LocalDate.now()).numberOfItems(1).payment(new BigDecimal(5)).productId(1).build();
+        CustomerOrder testCustomerOrder = CustomerOrder.
+                                            builder().
+                                            customerId(1).
+                                            date(LocalDate.now()).
+                                            numberOfItems(1).
+                                            payment(new BigDecimal(5)).
+                                            productId(1).
+                                            build();
 
         o.addCustomerOrder(testCustomerOrder);
 

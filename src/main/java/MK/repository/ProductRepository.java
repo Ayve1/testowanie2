@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ProductRepository extends AbstractGenericRepository<Product> implements ProductInterface {
 
     private List<Product> importProductFromFile(String filename) {
-//        File file = new File(filename);
+
         InputStream file = null;
         file = getClass().getResourceAsStream(filename);
         Scanner sc = null;

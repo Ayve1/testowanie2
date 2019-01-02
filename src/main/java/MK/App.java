@@ -156,7 +156,7 @@ public class App {
                         if(option > 0)
                             System.out.println("Wybrano niepoprawną opcję");
                 }
-                /*operations.znajdzNajstarszegoKlienta();
+                /*operations.findOldestClient();
                 System.out.println("Average age=" + operations.calculateAverageAgeCustomers());
                 operations.buyProduct();*/
             }
