@@ -15,6 +15,10 @@ public class CustomerOperations {
         return this.customerRepository.findAll();
     }
 
+    public Customer getCustomerById(long id) {
+        return this.customerRepository.findOne(id).get();
+    }
+
     public Customer getCustomerInformation() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Give name");

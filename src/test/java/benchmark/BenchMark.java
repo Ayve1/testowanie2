@@ -16,7 +16,7 @@ public class BenchMark {
         Customer testCustomer = Customer.builder().name("name").surname("surname").age(1).build();
         o.addCustomer(testCustomer);
 
-        o.findCustomerByNameSurname("name", "surname");
+        o.findCustomer(testCustomer.getId());
     }
 
     @Benchmark
@@ -37,7 +37,7 @@ public class BenchMark {
 
         o.updateCustomer(customer);
 
-        o.findCustomerByNameSurname("newName", "newSurname");
+        o.findCustomer(testCustomer.getId());
     }
 
     @Benchmark
@@ -54,7 +54,7 @@ public class BenchMark {
 
         o.removeCustomer(dbCustomer.getId());
 
-        o.findCustomerByNameSurname("testName", "testSurname");
+        o.findCustomer(testCustomer.getId());
     }
 
     @Benchmark
@@ -74,7 +74,7 @@ public class BenchMark {
         Customer testCustomer1 = Customer.builder().name("name").surname("surname").age(1).build();
         o.addCustomer(testCustomer1);
 
-        Customer customer = o1.findCustomerByNameSurname("name", "surname");
+        Customer customer = o1.findCustomer(testCustomer1.getId());
 
         customer.setName("newName");
         customer.setSurname("newSurname");
@@ -89,7 +89,7 @@ public class BenchMark {
         Customer testCustomer2 = Customer.builder().name("testName").surname("testSurname").age(1).build();
         o2.addCustomer(testCustomer2);
 
-        Customer dbCustomer = o2.findCustomerByNameSurname("testName", "testSurname");
+        Customer dbCustomer = o2.findCustomer(testCustomer2.getId());
 
         o2.removeCustomer(dbCustomer.getId());
 
